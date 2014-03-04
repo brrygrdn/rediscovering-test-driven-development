@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>No Title</title>
+    <title>(Re-)Discovering Test Driven Development</title>
 
-    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="description" content="Reminding myself why TDD is the best of all possible worlds">
     <meta name="author" content="Barry Gordon">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,6 +19,33 @@
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <style type="text/css">
+        .reveal section img {
+            border: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        .reveal section .red {
+            color: #bb4f41;
+            text-shadow: none;
+        }
+
+        .reveal section .green {
+            color: #339933;
+            text-shadow: none;
+        }
+
+        .reveal section .refactor {
+            color: #e5b31e;
+            text-shadow: none;
+        }
+
+        .reveal pre code {
+            max-height: 800px;
+        }
+    </style>
 
     <!-- If the query includes 'print-pdf', include the PDF print sheet -->
     <script>
@@ -43,11 +70,496 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
 
-      <section>
-        <h1>No Title</h1>
-        <h3>Work In Progress</h3>
-          <p>By <a href='http://www.barrygordon.co.uk'>Barry Gordon</a> ( <a href='https://twitter.com/brrygrdn'>@brrygrdn</a> )</p>
-        </p>
+      <section data-markdown data-separator="===" data-vertical="---">
+        <script type="text/template">
+            ### The Principals of Test Driven Development
+            ![Red, Green, Refactor](img/red-green-refactor.png)
+
+            [@brrygrdn](https://twitter.com/brrygrdn)
+
+            Note:
+
+            - TDD is a big subject, the detail of testing applications and techniques are a continious conversation
+            - I have 15 minutes...
+            - Researching the subject, I ran into polemics against TDD
+            - I have used TDD for so long I worry about a loss of perspective, as I do with most tools
+
+            ---
+            ### (Re-)Discoverying Test Driven Development
+
+            #### Reminding myself why TDD is the best of all possible worlds
+
+            [@brrygrdn](https://twitter.com/brrygrdn)
+
+            Note:
+
+            - This talk is a light manifesto for TDD, and a reminder of how we - as engineers - came to this approach
+            - Terrible, handwaving example code; Delegate to far better, detailed talks
+
+            - Questions!
+                - How many of you test your software?
+                - How many of you write automatic tests?
+                - How many of you write your tests first?
+
+            ===
+            ## The ascent of a programmer
+
+            Note:
+
+            - This is perhaps a failing, but that I think of software development as being very empirical
+            - To some extent we are condemned as individual coders to retrace the evolution of our discipline
+
+            ===
+            ## Write some code
+
+            ```ruby
+              puts 'Hello World!'
+            ```
+
+            Note:
+
+            - We all start off issuing basic commands and making the computer do something
+            - Its fun
+            - We probably did not start out in Ruby
+
+            ===
+            ## Make it flow
+            ```ruby
+              if Time.now.day == 1 && Time.now.month = 1
+                puts 'Happy New Year!'
+              else
+                puts 'Hello World!'
+              end
+            ```
+
+            Note:
+
+            ===
+            ## Learn some methods
+
+            ```ruby
+              def greet(name)
+                if Time.now.day == 1 && Time.now.month = 1
+                  puts 'Happy New Year #{name}!'
+                else
+                  puts 'Hello #{name}!'
+                end
+              end
+
+              greet 'World'
+            ```
+
+            Note:
+
+            ===
+            ## Orientate some objects
+            ```ruby
+              class Salutationizer
+
+                def initialize(name)
+                  @name = name
+                end
+
+                def greet
+                  if Time.now.day == 1 && Time.now.month = 1
+                    puts 'Happy New Year #{name}!'
+                  else
+                    puts 'Hello #{name}!'
+                  end
+                end
+
+              end
+            ```
+
+            Note:
+
+            ===
+            ## Start seeing patterns
+            ```ruby
+              class Salutationizer
+
+                def initialize(person)
+                  @person = person
+                end
+
+                def greet
+                  if birthday?
+                    puts 'Happy Birthday #{person.name}'
+                  elsif Time.now.day == 1 && Time.now.month = 1
+                    puts 'Happy New Year #{person.name}!'
+                  else
+                    puts 'Hello #{person.name}!'
+                  end
+                end
+
+                private
+
+                def birthday?
+                  Time.now.day == person.dob.day &&
+                    Time.now.month == person.dob.month
+                end
+
+              end
+            ```
+
+            Note:
+
+            ===
+            ## Do something terrible
+
+            ```c
+              if ((err = SSLHashSHA1.update(&hashCtx, &serverRandom)) != 0)
+                goto fail;
+              if ((err = SSLHashSHA1.update(&hashCtx, &signedParams)) != 0)
+                goto fail;
+                goto fail;
+              if ((err = SSLHashSHA1.final(&hashCtx, &hashOut)) != 0)
+                goto fail;
+            ```
+
+            Note:
+              - In a bizarre twist of fate you have gone from writing twee greeting classes in Ruby to security programming in C, in the past.
+              - Bad code is in production, people are shouting, money is being lost
+
+            ===
+            ## Fear, uncertainty, doubt
+
+            ![HAL 9000](img/HAL9000.svg)
+
+            Note:
+
+            - The machine is no longer your friend
+            - Most importantly, you now begin to see the need for a toolchain that promotes confidence
+            - Automated testing, acceptance testing feels self-evident once you hit that point
+            - Test first still seems less self-evident
+            - Programming is the biggest part of our job, where the tire meets the road but we carry it out inside a framework, a process
+
+            ===
+            ## Destroy all processes
+
+            Note:
+
+            - Software development processes
+            - Software engineering is a young art, but we have gone through a lot of different ways of approaching projects
+            - I started out on waterfall projects, my first job title was 'Analyst Programmer'
+            - My training focused on distinct phases of analysis, design, implementation and testing
+            - The Agile movement had lot of momenteum
+
+            ===
+            ## The Agile Manifesto
+
+            - Individuals and interactions over Processes and tools
+            - Working software over Comprehensive documentation
+            - Customer collaboration over Contract negotiation
+            - Responding to change over Following a plan
+
+            Note:
+
+            - The Agile Manifesto was in 2001
+            - First, yeah, ok. Sounds good. When you say tool to me in the early millenium I think of rational rose.
+            - Second, Damn right
+            - Uhh, yeah, I guess.
+            - Hmm responding to change. After that SSL goto fiasco, this worries me a bit. I will have to think about that one.
+
+            ---
+            ## Before agile
+
+            - Scrum
+            - Rational Unified Process
+            - Crystal Clear
+            - Extreme Programming
+            - Adaptive Software Development
+            - Feature Driven Development
+            - Dynamic Systems Development Method
+
+            Note:
+
+            - Programmers are iconoclasts when it comes to processes, we like to tear them down and come up new ones
+            - A lot of that is re-expressing the same ideas
+            - Its where we interface with people who are not programmers and to some extent these are regimes we operate within
+
+            ---
+            ## The gist
+
+            - Capture a requirement
+            - Design something to fulfill the requirement
+            - Build the design
+            - Test that it works
+
+            ===
+            ## Unlimited change, zero documentation
+
+            Note:
+
+            - Straw man critisim
+            - Agile can occasionaly decend to an absence of process
+            - Although it may seem horrifying, this represents the state a lot of us are prepared for now
+            - The technology business is about rapid iterations and pivoting of products, the more change we can provide our businesses the better
+            - Documentation is brittle, as rate of change - even rate of progress - increases it becomes harder and harder to maintain. Favour light weight
+
+            ===
+            ## Minimal Documentation
+
+            ```ruby
+              class Salutationizer
+                  # Create a Salutationizer
+                  # @param [#name, #dob] person An object with some personal info
+                  def initialize(person)
+                    @person = person
+                  end
+
+                  # Output an appropriate greeting to stdout
+                  def greet
+                    if birthday?
+                      puts 'Happy Birthday #{person.name}'
+                    elsif Time.now.day == 1 && Time.now.month = 1
+                      puts 'Happy New Year #{person.name}!'
+                    else
+                      puts 'Hello #{person.name}!'
+                    end
+                  end
+
+              private
+
+                def birthday?
+                  Time.now.day == person.dob.day &&
+                    Time.now.month == person.dob.month
+                end
+
+              end
+            ```
+
+            Note:
+
+            - Minimal comments and expressive code
+            - As complexity goes up, documentation fails
+            - Explaining domain knowledge in comments, at length
+
+            ---
+            ![Yard Doc](img/yard.png)
+
+            ===
+            ## Parsing is good, execution is better
+
+            Note:
+
+            ---
+            ```ruby
+              require 'time'
+
+              describe Salutationizer do
+                let(:date_of_birth) { Time.parse '1988-06-15' }
+                let(:person) { double(name: 'John Smith', dob: date_of_birth) }
+
+                subject { Salutationizer.new person }
+
+                describe '#greet' do
+
+                  context 'when today is the person`s birthday' do
+                    before { Time.stub(:now).and_return(date_of_birth) }
+
+                    expect(subject.greet).to eql('Happy Birthday John Smith!')
+                  end
+
+                  context 'when today is Janurary 1st' do
+                    let(new_years_day) { Time.parse '2014-01-01'  }
+                    before { Time.stub(:now).and_return(new_years_day) }
+
+                    expect(subject.greet).to eql('Happy New Year John Smith!')
+                  end
+
+                  context 'when today is any other date' do
+                    let(arbitary_day) { Time.parse '2014-06-30' }
+                    before { Time.stub(:now).and_return(arbitary_day) }
+
+                    expect(subject.greet).to eql('Hello John Smith!')
+                  end
+                end
+
+              end
+            ```
+
+            Note:
+
+            ===
+            ## TDD is minimal viable process
+
+            - Express a need
+            - Express intent to solve the need
+            - Solve according to intent
+            - Prove the solution
+
+            Note:
+
+            ---
+            ## Functional tests express user needs
+
+            Note:
+
+            - Check behaviour of systems; Doing the right things.
+            - Integration tests
+            - Acceptance tests
+            - Black box testing
+
+            ---
+            ## Unit tests express programmer needs
+
+            Note:
+            - Check operation of components; Doing things right.
+            - Method signatures, contracts
+            - Unit under test
+            - Testing the surface of an object
+            - Dependancies are mocked
+            - Signal testing muxes
+
+            ===
+            ![Red, Green, Refactor](img/red-green-refactor.png)
+
+            Note:
+
+            - This can be considered the lifecycle of a requirement / need
+
+            ---
+            # Red<!-- .element: class="red" -->
+
+            - ### Write a test
+            - ### Run it
+            - ### It should fail
+
+            Note:
+
+            - Writing a test states a need, a requirement
+            - We need to confirm it fails, as it might be a bad test
+            - Its difficult to be confident in tests that express something the code already does
+
+            ---
+            # Green<!-- .element: class="green" -->
+
+            - ### Write just enough code to make the test pass
+            - ### Run all the tests
+            - ### Confirm they pass
+
+            Note:
+
+            - Fulfill the need you have expressed, go no further as that is writing untested code
+            - We run all the tests to ensure there are no regressions
+
+            ---
+            # Refactor<!-- .element: class="refactor" -->
+
+            - ## Improve your solution
+              - ### Decompose long methods
+              - ### Remove duplication
+              - ### Make it expressive
+              - ### Address secondary requirements
+
+            Note:
+
+            - Having captured and fulfilled the requirement, you can now apply consideration to the quality of the code
+            - This slide is a massive handwave, but so is the term refactor
+            - I would also call this step 'apply your expertise'
+            - Changes can be made confidently as long as you still meet the expressed need, as long as the tests are green
+
+            ===
+            # Write Another Test...<!-- .element: class="red" -->
+
+            Note:
+
+            - Your next test might be discovering a new need in the unit under test, setting a performance tolerance
+            - Adding a new requirement can often invoke refactoring existing code while maintaining their requirements
+            - Good processes are about repeatability; iteration
+            - Do the right thing over and over; confidence
+
+            ===
+            # Confident Code
+
+            - Expressing needs examines them
+            - Implementation code can change
+            - Testing surfaces leads to strong contracts
+
+            Note:
+
+            - Expressing needs examines them; YAGNI
+            - If you get the implementation wrong, you can make changes without fear
+            - New requirements are framed alongside existing ones
+            - The decision to remove a test is deciding a need is gone
+            - All of these are about coping with change, favouring simplicity so you can continue to cope with change
+            - Continious Integration
+
+            ===
+            # Pitfalls
+
+            - Over testing
+              - Test everything, once.
+              - Avoid testing third-party code
+            - Under testing
+              - Test integration with third-party code
+              - Mindful mocking
+            - Brittle tests
+              - Test interfaces, not implementation
+            - Thorough does not mean slow
+              - Deferring to CI is lengthening the feedback loop
+
+            Note:
+            - Overtesting is fear
+              - TDD helps you manage fear, also known as risk
+              - Fear can drive TDD, particularly in legacy code and suites
+
+            - Trival examples were super brittle, asserting exact strings
+
+            - Keep the test suite fast, decouple.
+            - Integration tests happy paths, paths that users should see
+            - Edge and Corner cases are tested in units where cost of execution is lower
+
+            ===
+            ## A few thoughts on Rails
+
+            ![Rails Test Dir](img/rails-tests.png)
+
+            - makes TDD a first-class citizen<!-- .element: class="green"-->
+            - does not make TDD a pit of success<!-- .element: class="red" -->
+
+            Note:
+
+            - Rails is an opinionated framework
+              - Its also omakase, I do not use Test::Unit
+            - Rails generators creates tests for components
+
+            - Its testing opinions are a little weak
+              - It has not kept up
+              - Fixtures, ew
+            - Model tests are not inheriantly Unit tests
+            - Controller tests can be functional
+            - Requests vs Features
+
+            ===
+            ## Further Reading
+
+            - [The Magic Tricks of Testing by Sandi Metz](http://www.youtube.com/watch?v=URSWYvyc42M)
+
+              An extremely detailed walkthrough of robust, minimalist testing
+
+            - [betterspecs.org](http://betterspecs.org)
+
+              Rspec best practice and style guidelines
+
+            - [Architecture the lost Years Talk by Robert Martin](http://www.confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years)
+
+              An alternative approach to writing (and testing) Rails apps
+
+            Note:
+
+            - Things not mentioned:
+              - How to test well, see Sandi
+              - How to test rails well, see betterspecs.org
+              - How to create well-tested architectures, see Uncle Bob
+              - Managing legacy code with TDD
+
+            ===
+            # Thanks for listening!
+
+            Presentation available at: [http://www.barrygordon.co.uk/rediscovering-test-driven-development/](http://www.barrygordon.co.uk/rediscovering-test-driven-development/)
+        </script>
       </section>
 
     </div>
