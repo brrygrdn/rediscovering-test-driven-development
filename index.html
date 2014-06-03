@@ -72,32 +72,56 @@
 
       <section data-markdown data-separator="===" data-vertical="---">
         <script type="text/template">
-            ### The Principals of Test Driven Development
+            ### The Test Driven Development
             ![Red, Green, Refactor](img/red-green-refactor.png)
 
             [@brrygrdn](https://twitter.com/brrygrdn)
 
             Note:
-            - Test first!
+            - Questions!
+              - How many of you test your software?
+              - How many of you write automatic tests?
+              - How many of you write your tests first?
+
             - TDD is a big subject, the detail of testing applications and techniques are a continious conversation
-            - I have 15 minutes...
+              - There are concerns specific to the type of software under test; system, application, web
+
             - Researching the subject, I ran into polemics against TDD
-            - I have used TDD for so long I worry about a loss of perspective, as I do with most tools
 
             ---
-            ### (Re-)Discovering Test Driven Development
+            # Red<!-- .element: class="red" -->
 
-            #### Reminding myself why TDD is the best of all possible worlds
+            - ### Write a test
+            - ### Run it
+            - ### It should fail
+
+            Note:
+
+            ---
+            # Green<!-- .element: class="green" -->
+
+            - ### Write just enough code to make the test pass
+            - ### Run all the tests
+            - ### Confirm they pass
+
+            Note:
+
+            ---
+            # Refactor<!-- .element: class="refactor" -->
+
+            - ## Improve your solution
+
+            Note:
+
+            ===
+            ### (Re-)Discovering Test Driven Development
 
             [@brrygrdn](https://twitter.com/brrygrdn)
 
             Note:
+            - I have used TDD for so long I worry about a loss of perspective, as I do with most tools
             - This talk is a light manifesto for TDD, and a reminder of how we - as engineers - came to this approach
             - Terrible, handwaving example code; Delegate to far better, detailed talks
-            - Questions!
-                - How many of you test your software?
-                - How many of you write automatic tests?
-                - How many of you write your tests first?
 
             ===
             ## The ascent of a programmer
@@ -105,6 +129,7 @@
             Note:
             - This is perhaps a failing, but that I think of software development as being very empirical
             - To some extent we are condemned as individual coders to retrace the evolution of our discipline
+            - TDD is one of these things
 
             ===
             ## Write some code
@@ -201,6 +226,7 @@
             ```
 
             Note:
+            - Method extraction
 
             ===
             ## Do something terrible
@@ -216,6 +242,7 @@
             ```
 
             Note:
+              - Apple SSL Flaw
               - In a bizarre twist of fate you have gone from writing twee greeting classes in Ruby to security programming in C, in the past.
               - Bad code is in production, people are shouting, money is being lost
 
@@ -228,9 +255,37 @@
 
             - The machine is no longer your friend
             - Most importantly, you now begin to see the need for a toolchain that promotes confidence
-            - Automated testing, acceptance testing feels self-evident once you hit that point
+
+            ===
+            ## Now, I want something to go green
+
+            ![Red, Green, Refactor](img/red-green-refactor.png)
+
+            Note:
+            - Automated testing, specifically acceptance testing, feels self-evident once you hit that point
             - Test first still seems less self-evident
             - Programming is the biggest part of our job, where the tire meets the road but we carry it out inside a framework, a process
+
+            ===
+            ## The rise of the dev team
+
+            Note:
+            - In parallel to your personal journey, you will join a team of like-minded programmers
+            - As a group we face the great challenge of co-ordination, if not co-operation
+
+            ===
+            ## Programming is a team sport
+
+            - We need to divide work between us
+            - We need to meet contracts with another person`s code
+            - We need to maintain other people`s code
+            - We need to merge code
+
+            Note:
+            - In addition to making sure our code works, we need to make sure it works in context of other`s code
+            - Teams inevitably work on bigger systems
+            - Things regress, people leave hard-to-understand code, code we call 'Legacy' pejoratively
+            - Who has won the merge war?
 
             ===
             ## Destroy all processes
@@ -472,7 +527,7 @@
             ===
             # Confident Code
 
-            - Testing first decouples architecture
+            - Test-first decouples architecture
             - Expressing needs examines them
             - Implementation code can change
             - Testing surfaces leads to strong contracts
@@ -486,70 +541,88 @@
             - Continious Integration
 
             ===
-            # Pitfalls
+            # Confident coders
 
-            - Over testing
-              - Test everything, once.
-              - Avoid testing third-party code
-            - Under testing
-              - Test integration with third-party code
-              - Mindful mocking
-            - Brittle tests
-              - Test interfaces, not implementation
-            - Thorough does not mean slow
-              - Deferring to CI is lengthening the feedback loop
+            - Test-first explains iteration
+            - Awkward cases are illustrated
+            - I can change your implementation
+            - I can deploy your code
 
             Note:
+            - Tests written first step towards the final implementation
+            - It helps me understand the final design, especially the knarly bits
+            - Corner-cases in classes tend to become oral history otherwise
+
+            ===
+            # Pitfalls
+
+            Note:
+
+            ---
+            # Over testing
+
+            Note:
+            - Test everything, once.
+            - Avoid testing third-party code
             - Overtesting is fear
               - TDD helps you manage fear, also known as risk
               - Fear can drive TDD, particularly in legacy code and suites
+
+            ---
+            # Under testing
+
+            Note:
+            - Test integration with third-party code
+            - Mindful mocking
+            - What you stub or mock in unit tests needs an integration test for acceptance
+            - Mocking requires very careful consideration, strong opinions incist on avoiding it completely
+
+            ---
+            # Brittle tests
+
+            Note:
+            - Test interfaces, not implementation
             - Trival examples were super brittle, asserting exact strings
+
+            ---
+            # Thorough != slow
+
+            Note:
+            - Deferring to CI is lengthening the feedback loop
             - Keep the test suite fast, decouple.
             - Integration tests happy paths, paths that users should see
             - Edge and Corner cases are tested in units where cost of execution is lower
 
-            ===
-            ## A few thoughts on Rails
-
-            ![Rails Test Dir](img/rails-tests.png)
-
-            - makes TDD a first-class citizen<!-- .element: class="green"-->
-            - does not make TDD a pit of success<!-- .element: class="red" -->
+            ---
+            # TDD is not smarter than you
 
             Note:
-
-            - Rails is an opinionated framework
-              - Its also omakase, I do not use Test::Unit
-            - Rails generators creates tests for components
-
-            - Its testing opinions are a little weak
-              - It has not kept up
-              - Fixtures, ew
-            - Model tests are not inheriantly Unit tests
-            - Controller tests can be functional
-            - Requests vs Features
+            - Don`t become dogmatic, not everything can be ideally unit tested
+            - Good architectures tend to be easy to test
+            - Architectures should not be contrived for easier testing
+            - Try to isolate hard-to-test functionality and cover it via integration
 
             ===
             ## Further Reading
+
+            - [Is TDD Dead?](https://www.youtube.com/watch?v=z9quxZsLcfo)
+
+              A conversation between DHH, Martin Fowler & Kent Beck that challenges the assumptions
+              and defintion of terms within TDD
 
             - [The Magic Tricks of Testing by Sandi Metz](http://www.youtube.com/watch?v=URSWYvyc42M)
 
               An extremely detailed walkthrough of robust, minimalist testing
 
-            - [betterspecs.org](http://betterspecs.org)
-
-              Rspec best practice and style guidelines
-
             - [Architecture the lost Years Talk by Robert Martin](http://www.confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years)
 
-              An alternative approach to writing (and testing) Rails apps
+              An alternative approach to the architecture and testing of Rails apps
 
             Note:
 
             - Things not mentioned:
               - How to test well, see Sandi
-              - How to test rails well, see betterspecs.org
-              - How to create well-tested architectures, see Uncle Bob
+              - How to strong architectures that are well-tested, see Uncle Bob
               - Managing legacy code with TDD
 
             ===
@@ -595,16 +668,16 @@
       });
 
     </script>
-    
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    
+
       ga('create', 'UA-25516429-1', 'barrygordon.co.uk');
       ga('send', 'pageview');
-    
+
     </script>
 
   </body>
